@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Doomsday Vault</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Barlow:wght@400;600;700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<canvas id="smoke" aria-hidden="true"></canvas>
+
+<!-- ================= SIGN-IN ================= -->
+<section id="gate" class="layer" aria-labelledby="gTitle">
+  <div class="vault" id="vault" aria-hidden="true">
+    <span class="vault-glow"></span>
+    <svg viewBox="0 0 400 400">
+      <defs>
+        <pattern id="ht" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="3.5" cy="3.5" r="1.5" fill="#000" fill-opacity=".38"/></pattern>
+        <radialGradient id="inside" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#58E08A"/><stop offset=".5" stop-color="#1E6B47"/><stop offset="1" stop-color="#04130B"/></radialGradient>
+        <mask id="frameLit"><circle cx="200" cy="200" r="192" fill="#fff"/><circle cx="212" cy="212" r="190" fill="#000"/></mask>
+        <mask id="frameShade"><circle cx="200" cy="200" r="192" fill="#fff"/><circle cx="186" cy="186" r="190" fill="#000"/></mask>
+      </defs>
+      <!-- frame set into the wall -->
+      <circle cx="200" cy="200" r="192" fill="#4C5C7E"/>
+      <circle cx="200" cy="200" r="192" fill="#8394B6" mask="url(#frameLit)"/>
+      <circle cx="200" cy="200" r="192" fill="#2C3650" mask="url(#frameShade)"/>
+      <circle cx="200" cy="200" r="192" fill="url(#ht)" mask="url(#frameShade)"/>
+      <circle cx="200" cy="200" r="192" fill="none" stroke="#0D0D0D" stroke-width="7"/>
+      <!-- the opening behind the door -->
+      <circle cx="200" cy="200" r="152" fill="url(#inside)" stroke="#0D0D0D" stroke-width="6"/>
+      <g id="clasps"></g>
+      <!-- hinge barrels on the left -->
+      <g fill="#93A3C2" stroke="#0D0D0D" stroke-width="4">
+        <rect x="34" y="136" width="22" height="46" rx="7"/><rect x="34" y="218" width="22" height="46" rx="7"/>
+      </g>
+      <g stroke="#0D0D0D" stroke-width="2.5"><path d="M38 159h14M38 241h14"/></g>
+    </svg>
+    <svg id="leafSvg" viewBox="0 0 400 400">
+      <defs>
+        <pattern id="ht2" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="3.5" cy="3.5" r="1.6" fill="#000" fill-opacity=".4"/></pattern>
+        <mask id="doorLit"><circle cx="200" cy="200" r="148" fill="#fff"/><circle cx="214" cy="214" r="147" fill="#000"/></mask>
+        <mask id="doorShade"><circle cx="200" cy="200" r="148" fill="#fff"/><circle cx="187" cy="187" r="147" fill="#000"/></mask>
+      </defs>
+      <g id="bolts"></g>
+      <!-- the door -->
+      <circle cx="200" cy="200" r="148" fill="#5A6B8C"/>
+      <circle cx="200" cy="200" r="148" fill="#9AABCC" mask="url(#doorLit)"/>
+      <circle cx="200" cy="200" r="148" fill="#36425E" mask="url(#doorShade)"/>
+      <circle cx="200" cy="200" r="148" fill="url(#ht2)" mask="url(#doorShade)"/>
+      <circle cx="200" cy="200" r="148" fill="none" stroke="#0D0D0D" stroke-width="6"/>
+      <!-- raised centre plate -->
+      <circle cx="200" cy="200" r="116" fill="#52627F" stroke="#0D0D0D" stroke-width="4"/>
+      <circle cx="200" cy="200" r="109" fill="none" stroke="#7B8CAE" stroke-width="2.5"/>
+      <g id="rivets"></g>
+      <!-- hinge arms -->
+      <g fill="#7F90B2" stroke="#0D0D0D" stroke-width="4">
+        <rect x="44" y="144" width="50" height="30" rx="5"/><rect x="44" y="226" width="50" height="30" rx="5"/>
+      </g>
+      <g fill="#323C55" stroke="#0D0D0D" stroke-width="1.5">
+        <circle cx="66" cy="159" r="4"/><circle cx="82" cy="159" r="4"/><circle cx="66" cy="241" r="4"/><circle cx="82" cy="241" r="4"/>
+      </g>
+      <!-- locking wheel -->
+      <g id="wheel">
+        <g stroke-linecap="round">
+          <path d="M200 200V104M200 200l83 48M200 200l-83 48" stroke="#0D0D0D" stroke-width="18"/>
+          <path d="M200 200V104M200 200l83 48M200 200l-83 48" stroke="#93A3C2" stroke-width="10"/>
+        </g>
+        <circle cx="200" cy="200" r="76" fill="none" stroke="#0D0D0D" stroke-width="16"/>
+        <circle cx="200" cy="200" r="76" fill="none" stroke="#A9B8D6" stroke-width="8"/>
+        <g fill="#A9B8D6" stroke="#0D0D0D" stroke-width="5">
+          <circle cx="200" cy="100" r="11"/><circle cx="286.6" cy="250" r="11"/><circle cx="113.4" cy="250" r="11"/>
+        </g>
+        <circle cx="200" cy="200" r="30" fill="#0B231D" stroke="#0D0D0D" stroke-width="6"/>
+        <circle cx="200" cy="200" r="17" fill="#58E08A"/>
+        <circle cx="194" cy="194" r="5" fill="#C9F8D9"/>
+      </g>
+    </svg>
+  </div>
+  <h1 id="gTitle" class="gate-q">Are you prepared for Doom?</h1>
+  <form class="gate-form" id="form" novalidate>
+    <div class="gf-field"><label for="codename">Codename</label><input id="codename" autocomplete="nickname" maxlength="24"></div>
+    <div class="gf-field"><label for="passcode">Passcode</label><input id="passcode" type="password" autocomplete="off" maxlength="32"></div>
+    <button class="gf-go" type="submit">Open the vault</button>
+    <p class="gf-err" id="err" role="alert"></p>
+    <button class="gf-guest" type="button" id="guest">Enter as guest</button>
+  </form>
+</section>
+<div class="flood" id="flood" aria-hidden="true"></div>
+
+<!-- ================= ARCHIVE ================= -->
+<div id="app" class="layer" hidden>
+  <header class="top">
+    <div>
+      <h1 class="letter"><span class="speed">Doomsday</span> <span class="l2">Vault</span></h1>
+      <p>51 films, two universes, all doomed!</p>
+    </div>
+    <div class="who">
+      <div class="agent paper"><span>Signed in as</span><strong id="agentName">Guest</strong><button id="lock">Lock the vault</button></div>
+    </div>
+  </header>
+  <section class="doom-countdown" id="comicClock" aria-labelledby="cdTitle">
+    <h2 id="cdTitle" class="letter cd-title"><span class="speed">Doom arrives in…</span></h2>
+    <div class="cd-tiles" role="timer" aria-label="Time until Avengers: Doomsday">
+      <div class="cd-tile"><b data-t="d">0</b><span>days</span></div>
+      <div class="cd-tile"><b data-t="h">00</b><span>hours</span></div>
+      <div class="cd-tile"><b data-t="m">00</b><span>minutes</span></div>
+      <div class="cd-tile sec"><b data-t="s">00</b><span>seconds</span></div>
+    </div>
+    <p class="cd-here letter" hidden>Doomsday is here!</p>
+    <div class="cd-stamp" aria-hidden="true"><span>Dec 18<br>2026</span></div>
+  </section>
+  <div class="controls">
+    <div class="controls-in">
+      <div class="grp"><span id="l-ord">Order</span>
+        <div class="seg" role="group" aria-labelledby="l-ord"><button data-order="release" aria-pressed="true">Release</button><button data-order="story" aria-pressed="false">Chronological</button></div></div>
+      <div class="grp"><span id="l-show">Show</span>
+        <div class="seg" role="group" aria-labelledby="l-show"><button data-show="all" aria-pressed="true">All</button><button data-show="m" aria-pressed="false">MCU</button><button data-show="x" aria-pressed="false">X-Men</button></div></div>
+      <button class="tog" id="hideSeen" aria-pressed="false">Hide watched</button>
+      <div class="prog"><span class="m" aria-hidden="true"><i id="bar"></i></span><span id="count" aria-live="polite"></span></div>
+    </div>
+  </div>
+  <p class="status" id="status" aria-live="polite"></p>
+  <main class="grid" id="grid"></main>
+  <footer>Unofficial fan-made archive, not affiliated with Marvel, Disney or 20th Century Studios. Story-order years are approximate, and the Fox X-Men timeline follows one popular order. Your codename and watched list are saved only in this browser. Movie posters belong to their respective studios; poster images sourced via <a href="https://www.themoviedb.org" style="color:inherit">TMDB</a>.</footer>
+</div>
+
+<div class="scrim" id="scrim" hidden><div class="splash" id="splash" role="dialog" aria-modal="true" aria-labelledby="dTitle"></div></div>
+<div class="pow" id="pow" aria-hidden="true"></div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/posters.js"></script>
+<script src="js/cursor.js"></script>
+</body>
+</html>
